@@ -1,17 +1,13 @@
-* {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
+/* blog-delete.css - Placeholder styling for blog deletion confirmation */
+body {
+    background: #fff0f0;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
-
-html {
-  background-color: #80d4ff;
+h1, h2 {
+    text-align: center;
+    margin-top: 2rem;
 }
-
-h2 {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
+a {
+    color: #b20000;
+    text-decoration: underline;
 }
