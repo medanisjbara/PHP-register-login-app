@@ -16,7 +16,8 @@
     }
 
     public static function delete(string $cookie_name): void {
-      setcookie($cookie_name, '', time() - 1);
+      setcookie($cookie_name, '', time() - 3600, '/');
+      unset($_COOKIE[$cookie_name]);
     }
 
     private function tearOutId(): void {
