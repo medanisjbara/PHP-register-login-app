@@ -1,0 +1,74 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if(!isset($_COOKIE['user'])) {
+    Redirect::go('login');
+}
+
+// Sample user data (normally you'd fetch this from a DB)
+$username = $_SESSION['username'] ?? 'User';
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Fiverr Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Fiverr Clone</a>
+        <div class="d-flex">
+            <span class="navbar-text text-white me-3">Welcome, <?= htmlspecialchars($username) ?>!</span>
+            <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="p-4 bg-white rounded shadow-sm">
+        <h1 class="mb-4">Dashboard</h1>
+        <p>This is your dashboard. You can manage your gigs, orders, and profile here.</p>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">My Gigs</h5>
+                        <p class="card-text">View and manage your service listings.</p>
+                        <a href="#" class="btn btn-light btn-sm">Go to Gigs</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Orders</h5>
+                        <p class="card-text">Check active and past orders.</p>
+                        <a href="#" class="btn btn-light btn-sm">Go to Orders</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile</h5>
+                        <p class="card-text">Update your profile and settings.</p>
+                        <a href="#" class="btn btn-light btn-sm">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

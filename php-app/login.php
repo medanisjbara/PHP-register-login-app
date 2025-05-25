@@ -20,13 +20,13 @@
 
     if($findUser){
       Cookie::new('user', $findUser, 60*60*24);
-      Redirect::go('blog');
+      Redirect::go('dashboard');
     }
 
   }
 
   if(isset($_COOKIE['user'])) {
-    Redirect::go('blog');
+    Redirect::go('dashboard');
   }
 
 ?>
