@@ -33,6 +33,23 @@ $username = $_SESSION['username'] ?? 'User';
 <div class="container mt-5">
     <div class="p-4 bg-white rounded shadow-sm">
         <h1 class="mb-4">Dashboard</h1>
+        <div class="mb-3">
+            <?php
+            require_once 'classes/Cookies.php';
+            require_once 'classes/DB.php';
+            $cookie = new Cookie();
+            $userId = $cookie->getId();
+            $db = DB::getInstance();
+            $userArr = $db->getData("*", "users", ["id", "=", $userId]);
+            $user = $userArr ? $userArr[0] : null;
+            if ($user && !empty($user['is_seller'])): ?>
+                <span class="badge bg-success">You are a seller</span>
+            <?php else: ?>
+                <a href="become_seller.php" class="btn btn-success">
+                    Become a Seller
+                </a>
+            <?php endif; ?>
+        </div>
         <p>This is your dashboard. You can manage your gigs, orders, and profile here.</p>
 
         <hr>
@@ -56,6 +73,25 @@ $username = $_SESSION['username'] ?? 'User';
                     </div>
                 </div>
             </div>
+            <?php
+            require_once 'classes/Cookies.php';
+            require_once 'classes/DB.php';
+            $cookie = new Cookie();
+            $userId = $cookie->getId();
+            $db = DB::getInstance();
+            $userArr = $db->getData("*", "users", ["id", "=", $userId]);
+            $user = $userArr ? $userArr[0] : null;
+            if ($user && !empty($user['is_seller'])): ?>
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Sales</h5>
+                        <p class="card-text">Track your sales as a seller.</p>
+                        <a href="#" class="btn btn-light btn-sm">View Sales</a>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
             <div class="col-md-4">
                 <div class="card text-white bg-warning mb-3">
                     <div class="card-body">
