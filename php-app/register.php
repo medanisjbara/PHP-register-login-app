@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $password_again = $_POST['password_again'] ?? '';
 
-    // Basic validation (like your original Validation class, but here manually)
+    // Basic validation
     if ($username === '') {
         $errors[] = "Username is required.";
     }
@@ -39,35 +39,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if username already exists
     if (empty($errors)) {
-        $db = DB::getInstance()->getConnection(); // Assuming this returns mysqli connection
-        $stmt = $db->prepare("SELECT id FROM users WHERE username = ?");
-        if (!$stmt) {
-            $errors[] = "Database error: " . $db->error;
-        } else {
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $stmt->store_result();
-            if ($stmt->num_rows > 0) {
-                $errors[] = "Username is already taken.";
-            }
-            $stmt->close();
+        $db = DB::getInstance();
+        $result = $db->getData("*", "users", ["username", "=", "'$username'"]);
+        if (is_array($result) && count($result) > 0) {
+            $errors[] = "Username is already taken.";
         }
     }
 
     // Insert new user
     if (empty($errors)) {
         $hash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $db->prepare("INSERT INTO users (username, password, name) VALUES (?, ?, ?)");
-        if (!$stmt) {
-            $errors[] = "Database error: " . $db->error;
+        $db = DB::getInstance();
+        $insert = $db->addData("users", [
+            "username" => $username,
+            "password" => $hash,
+            "name" => $name
+        ]);
+        if ($insert !== true) {
+            $errors[] = "Registration failed. Please try again.";
         } else {
-            $stmt->bind_param("sss", $username, $hash, $name);
-            if ($stmt->execute()) {
-                $success = true;
-            } else {
-                $errors[] = "Registration failed. Please try again.";
-            }
-            $stmt->close();
+            $success = true;
         }
     }
 }
@@ -80,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Register - Your Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        /* Include the exact CSS from your other project for header, footer, form etc */
         body {
             font-family: "Segoe UI", sans-serif;
             margin: 0;
